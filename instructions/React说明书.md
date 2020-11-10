@@ -1,0 +1,241 @@
+# React
+
+## 1. 安装yarn
+
+1. yarn是一个软件包管理器，缓存每个下载过的包，校验每个安装包的完整性，充分利用网络性能
+   
+2. 通过命令安装
+   
+```shell
+    npm install -g yarn
+```
+
+3. 常用的命令
+```shell
+    yarn set version latest  # 更新到最新版本
+    yarn help  # 显示命令列表
+    yarn init  # 初始化一个新项目
+    yarn # 安装所有依赖项
+    yarn install # 安装所有依赖项
+    yarn add [package] # 添加依赖项
+    yarn add [package]@[version]
+    yarn add [package]@[tag]
+    yarn remove [package] # 删除依赖项
+```
+
+## 2. JSX
+
+1. 由Facebook起草的JS扩展语法，现处于草案阶段需要babel
+
+### 1. JSX是什么
+
+1. 是```React.createElement```的语法糖，该函数最终生成一个JS对象-React元素
+   
+2. 一个JSX表达式必须有一个根节点，如果父级为空可写为```<></>```它是```React.Fragment```的语法糖
+3. JSX元素遵循(XML规范)
+   
+4. 使用JSX必须在导入React前提下
+
+### 2. 使用JSX
+
+1. 使用```{}```中填写JS表达式
+2. 使用小驼峰命名属性，其中样式类由于是Javascript的关键字由```className```替代
+3. ```null\undefined\false```不会输出任何内容，可用与判断是否显示一个元素，否定条件下将其赋值为null
+4. 普通对象无法通过```{}```进行显示，react对象除外，基本数据类型组成的数组会自动展开显示
+5. 防止注入攻击，在插入HTML片段时，需要配置```dangerouslySetInnerHTML```
+6. 一个JSX产生的对象是不可变的，只读
+
+## 3. 组件
+
+1. 组件可以实现多次复用，它是一个UI单元，具有内容、样式、功能
+2. 组件的名称首字母必须大写，为了区分React元素
+3. 函数组件与类组件：函数组件必须返回一个React元素。类组件必须继承React.Component,必须返回render函数，该函数返回React元素
+4. 一个类组件具有属性(接受的参数),状态(自己可以更改的,不能直接更改状态,需要使用```setState({})```改变状态，才会触发重新渲染),函数组件具有属性
+   
+5. 在HTML元素的事件中调用setState，是异步的，反之则是同步
+   
+   >setSatate的参数可以接受一个函数，该函数的参数为上次异步修改state的状态(虽然修改了state，但是并没有触发重新渲染，为了更好的性能，react在处理异步调用setState时会将其参数为函数的装入队列，最后再触发setState，再触发render)
+   >如果使用setState后想做一些事情，可以为其添加第二个参数(回调函数)
+   
+6. **React中的数据自顶而下**
+
+## 3.事件
+
+1. 在React中事件本质上就是一个属性
+2. 需要注意在函数中的```this```,如果没有特殊处理，this指向undefined
+3. 通过```bind函数，绑定this```,```使用箭头函数```
+
+## 4. 生命周期
+
+1. 当组件处于不同的时机，react会为其触发一些钩子函数，这些函数构成了组件的生命周期
+
+### 1. 小于16.0.0的生命周期
+
+1. constructor 
+    <br>
+    > JavaScript中class自带，不要再该函数中使用```setState```
+  
+2. componentWillMount
+   <br>
+   >正常情况下该函数只会运行一次，某些特殊情况下会触发多
+   >可以使用setState, 但是由于会触发多次，使用setState并不会太友好
+
+3. **render**
+   <br>
+   >禁止使用```setState```,会形成递归(setSate会触发render)
+   >重新渲染就靠它
+
+4. **componentDidMount**.
+   <br>
+   >一个正常的生命周期函数
+   >只会执行一次
+   >可以改变状态，可以将网络请求，计时器等放在该时机
+
+5. componentWillReceiveProps
+   <br>
+   >属性新的值会作为参数
+
+6. **shouldComponentUpdate**
+   <br>
+   >返回值决定是否选哟重新渲染该组件
+   >返回值 true/false
+
+7. componentWillupdate
+   <br>
+   >组件即将重新渲染
+
+8. componentDidUpdate
+   <br>
+   >更新完成，可以再该时机进行dom操作
+
+9.  **componentWillUnmount**
+    <br>
+    >即将销毁
+    >销毁一些计时器等
+
+### 2. 新的生命周期 向下兼容
+
+1. 新增getDerivedStateFromProps
+    <br>
+   >参数为新的属性和状态
+   >静态方法
+   >返回值覆盖组件的状态
+2. 新增 getSnapshotBeforeUpdate
+   <br>
+   >真实dom构建完成，但未渲染
+   >在该时机实现一些附加的dom操作
+   >返回值作为componentDidupdate的第三个参数
+
+3. 删除componentWillMount
+   <br>
+   >有多次调用的可能性
+
+4. 删除componentWillReceiveProps
+   <br>
+    >容易误用该函数
+
+5. 删除 componentWillUpdate
+   <br>
+   >重新渲染前
+
+## 5. 组件传值-元素
+
+1. 将组件内的内容以属性```childrenn```传递被调用组件
+2. 同理，其他也可通过相同的属性方式进行传递
+
+## 6. 表单
+
+>表单组件，默认情况都是非受控组件，但是可以通过设置其value(单选框和多选框设置checked),则变为受控组件
+>一旦为受控组件，则需要为其传递```onchange```属性
+
+### 1. 受控组件
+
+     组件的使用者，完全控制该组件的行为和内容，而该组件没有状态只有属性
+
+### 2. 非受控组件
+
+    组件的使用者没有能力控制该组件行为
+
+## 默认值与默认属性
+
+**使用```prop-types```检查react属性是否符合组件要求**
+
+>
+
+
+1. 通过设置静态属性```defaultProps```设置默认
+```javascript
+
+DefaultC.defaultProps = {
+    a:"this is default value"
+}
+
+```
+
+
+2. 使用```propTypes```属性如何检查属性。
+  <br>
+   >propTypes.any    任意类型
+   >propTypes.array  数组类型
+   >propTypes.bool   布尔类型
+   >propTypes.func   函数类型
+   >propTypes.number 数字类型
+   >propTypes.object 对象类型
+   >propTypes.string 字符串类型
+   >propTypes.symbol 符号类型
+
+```javascript
+
+DefaultC.propTypes ={
+    a:propsType.bool,
+}
+
+```
+
+3. 使用自定义检查规则
+
+```javascript
+
+function myRule(props,propName,componentName){
+   // 检查有误，返回错误对象，prop-types库会自动抛出
+}
+
+```
+
+## 高阶组件
+
+**HOC:高阶组件，把组件作为参数，返回一个新的组件，可以用来给一些组件添加一些通用功能。从而实现横切关注点**
+
+```javascript
+// 实现添加日志
+import React from 'react'
+export default function withLog(Comp,option){
+    return class LopWrapper extends React.Component{
+        componentDidMount() {
+            console.log(`日志：组件${Comp.name}被创建了！！${Date.now()}`)
+        }
+        componentWillUnmount() {
+            console.log(`日志：组件${Comp.name}被销毁了！！！${Date.now()}`)
+        }
+        render(){
+            return(
+                <>
+                    <div>{option}</div> {/*显示其他信息*/}
+                    <Comp/>
+                </>
+            )
+        }
+    }
+}
+```
+
+**在调用高阶组件时，不要再生命周期钩子中调用，会导致多次销毁和创建**
+**不要再高阶组件中更改传入的组件**
+   
+
+
+
+
+
+
+
