@@ -184,6 +184,17 @@ DefaultC.defaultProps = {
    >propTypes.string 字符串类型
    >propTypes.symbol 符号类型
 
+   >propTypes.node 任何可以被渲染的内容，字符串，数字，React元素
+   >propTypes.element react元素
+   >propTypes.elementType react元素类型
+   >propType.instanceOf(构造函数) 必须事指定构造函数的实例
+   >propType.oneOf([xxx,xxx])  枚举
+   >propType.oneOfType([xxx,xxx])   属性类型必须是数组中的一个
+   >propType.arrayOf(propType.xxx)  该数组必须是该类型组成
+   >propType.objectOf(propType.xxx) 对象由某一类的值组成
+   >propType.shape(对象)    属性必须是对象，并且满足指定的数据
+   >propType.exact(对象)    相比shape，该方法更加严格，完全匹配
+
 ```javascript
 
 DefaultC.propTypes ={
