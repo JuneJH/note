@@ -184,7 +184,6 @@
             width: 200px;
             background-color: brown;
             margin-left: -100%;
-
         }
 
 ```
