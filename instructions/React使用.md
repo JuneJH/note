@@ -1,3 +1,4 @@
+
 # React
 
 ## 1. 安装yarn
@@ -241,7 +242,26 @@ export default function withLog(Comp,option){
 ```
 
 **在调用高阶组件时，不要再生命周期钩子中调用，会导致多次销毁和创建**
-**不要再高阶组件中更改传入的组件**
+**不要在高阶组件中更改传入的组件**
+
+## refs
+
+> `refs`用来获取真实dom，以便与第三方或者特殊需求使用
+> 
+
+## Context
+
+## PureComponent
+
+## Render Props
+
+## React 事件
+
+## Portals
+
+## 错误边界
+
+## 渲染
    
 
 
