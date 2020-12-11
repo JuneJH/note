@@ -167,3 +167,108 @@
 > 每次执行`useEffect`能拿到外部的值，这是因为闭包
 > 每次执行`useEffect`时，它的第一个参数每次会覆盖执行，如果该参数不固定，那么他所返回的清理函数执行时机将发生混乱
 > 在使用`useEffect`时，他执行的时机是在渲染完成后，因此如果需要为子组件传递数据，注意初始化，它将晚于子组件调用。
+
+## 自定义Hook
+
+> 自定义Hook就是一个函数，因为它是自定义Hook，所以他必须以`use`开头，以便可以在内部使用`Hook`
+> 自定义Hook也是Hook，所以它也需要遵循`Hook`规则
+> 它就是一个可以调用`hook`的函数
+
+示例：
+
+```js
+
+import {useState,useEffect} from "react";  // 引入hook
+import {getStudents} from "../../api";
+
+//  本质上就是一个函数
+export function  useGetStudents (page=1,pageSize=10) {
+    const [students,setStudents] = useState([]);
+    const [total,setTotal ] = useState(0)
+    useEffect(()=>{
+        getStudents(page,pageSize).then(data=>{   // 通过该函数可以获得一个学生分页列表
+            setStudents(data.data);
+            setTotal(data.total)
+        })
+    },[page,pageSize]) // 依赖数组
+    return [students,total];
+}
+
+```
+
+## Hook Api
+
+### 1. useContext
+
+### 2. useReducer
+
+> `useState`的替代方案
+> 接受一个`reducer`和状态初始值以及惰性初始值函数(该函数的参数为第二个参数)
+> 返回一个状态，以及对应的`dispatch`
+> 在`state`逻辑复杂的情况下，`useReducer`会比`useState`更合适
+
+### 假装模拟实现
+
+1. 准备一个修改状态的函数(reducer)
+
+```js
+    // 实现根据action不同的类型对状态进行加减，注意每次返回的状态不是同一个值，状态是不可变得
+    function  reducer(state, action) {
+        switch (action.type) {
+            case "increase": return state + 1;
+            case "decrease":return  state - 1;
+        }
+        return  state;  // 引用值存在问题
+    }
+```
+2. 实现一个`useReducer`Hook
+
+```js
+    // 未实现惰性初始值，只需要接受第三个函数，如果存在执行并将返回值设置为初始值
+    function useReducer(reducer,initState) {
+        const [state,setState] = useState(initState);
+        function dispatch(state, action) {
+            const newState = reducer(state, action);
+            setState(newState);
+            return newState;
+        }
+        return [state,dispatch];
+    }
+```
+
+3. 使用
+
+```js
+
+    export default function App() {
+        const [count,dispatch]  = useReducer(reducer,100);// dispatch像极了setCount,但是它可以做更多事
+        return (
+            <div>
+                <button onClick={() => {
+                    dispatch({type:"decrease"})
+                }}>--</button>
+                <span>{count}</span>
+                <button onClick={() => {
+                    dispatch({type:"increase"})
+                }}>++</button>
+            </div>
+        );
+    }
+
+```
+
+### 3. useCallback
+
+### 4. useMemo
+
+### 5. useRef
+
+### 6. useImperativeHandle
+
+### 7. useLayoutEffect
+### 8. useDebugValue
+
+## 总结
+
+> Hook给函数组件带来了不可思议的能力
+> Hook带来了新的横切关注点能力，而且不影响结构(HOC,Render props)
