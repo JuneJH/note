@@ -10,9 +10,9 @@
 
 1. 使用该函数返回一个数组，其一为状态值，其二为改变状态的函数
 2. 使用该函数可以传递当前状态的初始值作为第一个参数
-3. 使用第二参数(修改状态函数)时，参数会直接替换原有值，与`setState`覆盖不一致
+3. 使用第二个结果(修改状态函数)时，参数会直接替换原有值，与`setState`覆盖不一致
 4. 同理，如果在同一次操作中想要修改状态，需要传递函数(参数为上一次状态的值)
-5. 第二参数(修改状态函数)的始终为同一函数
+5. 第二结果(修改状态函数)始终为同一函数
 
 ```js
     // 示例，验证以上观点
@@ -259,14 +259,78 @@ export function  useGetStudents (page=1,pageSize=10) {
 
 ### 3. useCallback
 
+> `react`通过对比两次状态来确定是否重新渲染
+> 在函数组件中保持一个引用值得不变则有些困难
+> `useCallback`就是用来固定函数，它的根据所传入依赖，依赖不变那么他每次得引用值都是一致得
+
+示例
+```js
+
+    class CallbackC extends React.PureComponent {
+        render(){
+            console.log("render CallBack")
+            return (<div>
+                <button onClick={this.props.callback}>console</button>
+            </div>)
+        }
+    }
+    function CallbackF() {
+        console.log("callbackF render")
+        const [count, setCount] = useState(0);
+        const [num,setNum] = useState(1)
+        const callback = useCallback(()=>{
+            console.log("处理函数")
+
+        },[])
+        return (<div>
+            <CallbackC callback={callback}/>
+            <input type="number" value={num} onChange={(e)=>{setNum(e.target.value);}}/>
+        </div>)
+    }
+```
+
 ### 4. useMemo
+
+> 相比`useCallback`，`useMemo`这个钩子函数更加全面
+> 它用来固定一些开发者想要固定得东西，这其中包括固定一个函数
+> 通常可用于一些需要通过计算得出的结果，这个结果可以多次使用不用每次都计算的场景
+
+通过`useMemo`实现`useCallback`
+
+```js
+    class CallbackC extends React.PureComponent {
+        render(){
+            console.log("render CallBack")
+            return (<div>
+                <button onClick={this.props.callback}>console</button>
+            </div>)
+        }
+    }
+    function CallbackF() {
+        console.log("callbackF render")
+        const [count, setCount] = useState(0);
+        const [num,setNum] = useState(1)
+        const callback = useMemo(()=>{
+
+            return ()=>{
+                console.log("处理函数/处理结果")
+            }
+
+        },[])
+        return (<div>
+            <CallbackC callback={callback}/>
+            <input type="number" value={num} onChange={(e)=>{setNum(e.target.value);}}/>
+        </div>)
+    }
+
+```
 
 ### 5. useRef
 
 ### 6. useImperativeHandle
 
 ### 7. useLayoutEffect
-### 8. useDebugValue
+### 8. useDebugValue    
 
 ## 总结
 
