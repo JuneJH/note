@@ -327,6 +327,66 @@ export function  useGetStudents (page=1,pageSize=10) {
 
 ### 5. useRef
 
+> 在函数组件中，通常使用`React.createRef`
+> 但是如果在函数使用该方式则会多次创建
+> 自然使用`useRef`返回一个固定对象
+> 不仅仅是在使用`ref`时用该`hook`，只要需要一个不变(地址不变，不是值不变)对象，都可以使用该`hook`
+> 该`hook`返回对象的属性值发生变化也不会触发重新渲染
+
+1. 常规使用
+
+```js
+
+    function TestRef(){
+        const testRef = useRef();
+        return (<div>
+            <input ref={testRef} type="text"/>
+            <button onClick={()=>{
+                console.log(testRef.current.value)
+            }}>获取input的值</button>
+        </div>)
+    }
+
+```
+
+2. 改装第一个计数demo，自动计数
+
+> 在需要固定对象得场景，都可以使用该`Hook`
+
+```js
+    // 错误
+    function TimerRef(){
+        const [count,setCount] = useState(0);
+        useEffect(()=>{
+            setInterval(()=>{       // 将此改变setTimeout  并且传入依赖项count则可正常实现该功能
+                console.log(count); // 一直为0，不能访问最新count
+                setCount(count + 1);
+            },1000)
+        },[])// 只触发一次
+
+        return(<div>
+            <p>{count}</p>
+        </div>)
+    }
+
+    // 正确
+    function TimerRef(){
+        const [count,setCount] = useState(0);
+        useEffect(()=>{
+            setInterval(()=>{
+                console.log(count) // 实时
+                setCount(count + 1);
+            },1000)
+        },[])
+
+        return(<div>
+            <p>{count}</p>
+        </div>)
+    }
+
+```
+
+
 ### 6. useImperativeHandle
 
 ### 7. useLayoutEffect
