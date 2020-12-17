@@ -114,7 +114,7 @@
 
 ```
 
-1. 副作用函数在页面完成真实更新后执行，与类组件中`componentDidMount`、`componentDidUpdate`执行时间有差异
+1. 副作用函数在页面完成真实更新后执行(延迟调用)，与类组件中`componentDidMount`、`componentDidUpdate`执行时间有差异
 2. 副作用函数的返回值必须为一个函数(清理副作用函数所产生的影响),该函数(`清理函数`)会在每次运行副作用函数前运行(首次不执行，销毁时执行);
 3. 正常情况下，卸载后只会执行清理函数
 
@@ -390,7 +390,31 @@ export function  useGetStudents (page=1,pageSize=10) {
 ### 6. useImperativeHandle
 
 ### 7. useLayoutEffect
-### 8. useDebugValue    
+
+> 在拥有`useEffect`后能够几乎解决大多数时候的需求，但是有时候需要在渲染之前进行优先变更
+> `useLayoutEffect`执行时机就是这样，它同类组件中的生命周期`componentDidMount`、`componentDidUpdate`调用时机一致
+> 其余与`useEffect`一致
+### 8. useDebugValue   
+
+> `useDebugValue`用来在React开发工具中显示自定义Hook的标签
+
+1. 官网例子
+
+```js
+
+function useFriendStatus(friendID) {
+  const [isOnline, setIsOnline] = useState(null);
+
+  // ...
+
+  // 在开发者工具中的这个 Hook 旁边显示标签
+  // e.g. "FriendStatus: Online"
+  useDebugValue(isOnline ? 'Online' : 'Offline');
+
+  return isOnline;
+}
+
+```
 
 ## 总结
 
