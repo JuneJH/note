@@ -102,7 +102,54 @@ Function.prototype.myCall = function (context,args){
 ## 3. bind
 
 > 第一个参数和前面处理方法一致,都是作为this指向
-> 其余参数传递给真实函数
+> 其余参数传递给真实函数，后续在调用时传递的参数拼接在后
 > bind()返回一个新的函数，该函数的功能为真实函数，只是改变了this指向
 > 如果是new执行该函数，新的对象的构造函数指向认识原函数，且bind返回的函数以及传递所改变的this没有任何作用
 
+1. 示例代码
+
+```js
+
+    Function.prototype.myBind = function(context,...args){
+      // 一些兼容判断
+      if(typeof context === "symbol"){
+        throw new Error("暂时处理不了symbol")
+      }
+      if(context == null){
+        context = window;
+      }else
+      if(typeof context !== Object){
+        context = new context.constructor(context)
+      }
+      // 把函数保存下来，以便后续调用
+      const _fn = this;
+      if(typeof _fn !== "function"){
+        throw new TypeError("不是函数")
+      }
+      // 当使用new调用时，返回的对象的构造函数为原函数，因此需要继承
+      const fNOP = function(){};
+      // 返回实体函数
+      function fBound(...runArgs){
+        // 判断是否是new执行，如果是此时this失效，执行原函数
+        if(new.target){
+            context = this;
+        }
+        if(!context._fn){
+          context._fn = _fn;
+        }
+        const result = context._fn(...args,...runArgs);
+        delete context._fn;
+        console.log("返回函数的this",this)
+        return result;
+      }
+      // 继承原型
+      fNOP.prototype = _fn.prototype;
+      fBound.prototype = new fNOP();
+      return fBound;
+    }
+
+```
+
+> 并非与原函数call/apply/bind结果完全一致，如bind的模拟，在模拟bind函数中使用new调用时，它的原型比原函数bind多一层
+> 仅仅是一种学习JavaScript的思路
+> Symbol类型还不知道怎么处理TODO
