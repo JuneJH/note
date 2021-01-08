@@ -1,0 +1,99 @@
+# React-Router
+
+> 前端路由主要通过`hash`和`history`两种方式实现
+> 其主要目的就是无刷新的改变页面路由
+> 根据路由匹配相应的组件
+
+## 1. react中实现路由
+
+> react-router:路由核心库，实现路由功能，与环境无关
+> react-router-dom: 依赖环境能力加核心库能力实现路由功能(类似`react`与`react-dom`关系)
+> 通过`HashRouter`、`BrowserRouter`、`Switch`等组件对路由进行动态管理
+
+### 1. HashRouter and BrowserRouter
+
+> HashRouter:即通过`hash`的方式实现
+> BrowserRouter:通过`history`方式实现
+
+1. 示例
+
+```js
+import {BrowserRouter,Route,Switch} from "react-router-dom";
+
+    <BrowserRouter>
+              <Route path="/login" exact component={组件}/>
+              <Route path="/register" exact component={组件}/>
+              <Route path="/update" exact component={组件}/>
+              <Route path="/" component={组件}/>
+    </BrowserRouter>
+
+```
+- BrowserRouter/HashRouter: 它不做展示功能，但是它会产生一个上下文，记录路由的操作(history)、信息(location)、匹配信息(match),此上下文对开发者关闭
+- `Route`组件能够获取到该上下文，并且通过属性(props)的方式传递给子组件
+- 孙子组件可以通过高阶组件(`withRouter`)直接获取，减少因为数据流动带来的冗余操作
+
+### 2. Route
+
+> 根据不同的路由显示不同的组件
+
+1. path: 匹配的路径规则，不区分大小写，不精确匹配，默认匹配任意路径
+2. component: 匹配成功后展示的组件
+3. sensitive:  区分大小写
+4. exact:   精确匹配
+5. children: 尝试匹配后就会进行渲染,children可以为jsx元素，或者为函数，参数为上下文内容，渲染其返回值
+
+### 3. Switch组件
+
+> `Switch`组件其子组件必须为`Route`组件
+> 它会遍历其子元素进行匹配，当匹配到一个后结束
+
+1. 示例
+
+```js
+
+import {BrowserRouter,Route,Switch} from "react-router-dom";
+
+    <BrowserRouter>
+          <Switch>
+              <Route path="/login" exact component={组件}/>
+              <Route path="/register" exact component={组件}/>
+              <Route path="/update" exact component={组件}/>
+              <Route path="/" component={组件}/>    // 如果没有匹配成功就落入此
+          </Switch>
+    </BrowserRouter>
+
+```
+
+### 4. withRouter
+
+> `Router` 产生的上下文对开发者关闭，对直接子组件通过属性传递，孙子组件需要通过多次传递才能获取
+> 通过高阶组件`withRouter`获取到上下文传递
+
+1. 示例
+
+```js
+
+import {withRouter} from "react-router-dom";
+function Login(props) {...}  // 在Login组件使用history对象进行跳转
+export default withRouter(Login)  // 高阶组件获取路由上下文，并将该上下文通过属性传递
+
+```
+
+### 5. Link
+
+> 生成一个无刷新跳转的a元素
+
+### 6. NavLink
+
+### 7. Redirect
+
+
+## Router生产的上下文
+
+### 1.history
+
+
+### 2. location
+
+### 3. match
+
