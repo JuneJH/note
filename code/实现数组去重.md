@@ -1,0 +1,21 @@
+# 数组去重
+
+> 把数组的重复数据去掉
+
+1. 利用Es2015的Set去重
+
+```js
+
+    const arr = [1,2,3,3,3,6,6,6]
+    [...new Set(arr)]
+
+```
+
+2. 利用filter去重
+
+```js
+
+    const arr = [1,2,3,3,3,6,6,6]
+    arr.filter((value,i)=>arr.indexOf(value)===i)
+
+```
