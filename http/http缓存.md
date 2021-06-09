@@ -74,6 +74,24 @@
 ## 5. HTTP缓存机制-协商缓存
 
 > 通过`last-modified`和`etag`控制
-> 当再次请求时请求头会通过`if-modified-sice`和` if-none-match`携带以上两个字段的值
+> 当再次请求时请求头会通过`if-modified-sice`和`if-none-match`携带以上两个字段的值
+> 服务器收到这两个字段做出判断资源是否发生改变,如果没有发生改变就返回`304 not modified`浏览器使用缓存资源,如果发生改变就走正常的请求流程
+> `etag`的优先级高于`last-modified`
 
 ## 6. HTTP缓存机制-express实践
+
+- 使用中间件`express.static()`配置第二个参数
+```js
+    {
+        lastModified:false,
+        etag:false,
+        maxAge:10000,
+    }
+```
+
+- 接口返回直接设置响应头
+```js
+
+ res.setHeader("expires",new Date(+new Date() + 30000))
+ 
+```
