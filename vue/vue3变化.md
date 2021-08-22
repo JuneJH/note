@@ -72,14 +72,6 @@
 > 在vue2中组件实例存在许多不想开发者使用的属性/方法
 > 在vue3中组件实例是一个Proxy的代理对象
 
-## vue3 数据响应式
-
-> 利用Proxy Api实现
-> 对数据时动态访问的
-
-- vue2 需要递归数据使其具有响应式
-- 无法监听新增属性和删除属性
-- vue3 利用proxy
 
 ## vue3 模版变化
 
@@ -148,3 +140,89 @@
 
 > vue3支持多个根节点
 > 在vue2中一个组件必须有一个根节点,这样有时候是冗余
+
+## 组件的变化
+
+> defineAsyncComponent 异步组件
+> Teleport 改变组件实例真实位置
+> Suspence
+
+## 响应式数据 reactivity api
+
+> 利用Proxy Api实现
+> 对数据时动态访问的
+> vue3中把响应式系统为单独的一个模块
+> 其中reactive、ref、readonly、computed为生成响应式数据API
+> 其中reactive、readonly生成的是代理对象Proxy
+> ref、computed生成的是ref对象
+
+### 1. reactive、readonly
+
+- reactive(Object) 代理一个对象new Proxy()
+
+```js
+
+  reactive(123);//value cannot be made reactive: 123
+
+```
+
+- readonly(Object) 代理一个对象,不提供set()
+
+```js
+
+  const state = readonly({name:"june"})
+  state.name = 123//Set operation on key "name" failed: target is readonly. {name: "june"}
+
+```
+
+### 2. ref、computed
+
+- 可以让所有类型状态具有响应式
+- 如果是非对象类型,直接ref.value
+- 如果是对象,ref.value = Proxy对象
+- 如果是Proxy对象,直接使用该Proxy对象
+- computed返回的是一个ref对象
+- computed会缓存结果,依赖发生变化时且再次调用该计算属性时重新执行计算函数得到新值
+
+```js
+
+  const numberRef = ref(123);// {value:123}
+  const userRef = ref({name:"june",age:18});//{value:Proxy}
+  const user = reactive({name:"june",age:18})
+  const userReactiveRef = ref(user);
+  console.log(userReactiveRef.value === user);// true
+  const userInfo = computed(()=> `My name is ${userRef.value.name},i am ${user.age} year old`)
+
+```
+
+### 3. 工具方法
+
+- isProxy
+- isReactive
+- isReadonly
+- unref
+- toRef
+- toRefs
+- isRef
+
+### 4. watch、watchEffect
+
+> watch:同vue2的使用,惰性执行副作用,手动指定监听对象,可访问当前状态和修改前状态
+> watchEffect:在响应式地跟踪其依赖项时立即运行一个函数，并在更改依赖项时重新运行它
+> watchEffect会自动收集依赖
+
+```js
+
+  watch(numberRef,(state,preState)=>{
+      console.log("watch run",state,preState)
+  })
+  watchEffect(()=>{
+      console.log("watchEffect run",numberRef.value)
+  })
+  // watch 通过数组监听多个依赖,Proxy对象需要转换为一个函数
+  watch([numberRef,()=>state.name],([state,preState],[name,preName])=>{
+      console.log("watch run 2",state,preState,name,preName)
+  })
+
+```
+
