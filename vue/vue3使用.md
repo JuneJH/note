@@ -7,7 +7,7 @@
 
 - 1. `template` 模板不用非要根节点
 - 2. `option api` 转向 `composition api` 更好的封装
-- 3. 
+- 3. v-if的优先级高于v-for,意味着在一起使用会报错
 
 
 ## 2. setup函数
