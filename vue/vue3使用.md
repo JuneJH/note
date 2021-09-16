@@ -1,12 +1,15 @@
 # Vue3使用
 
-> 构建工具
-> composition api 和 option api
+> 构建工具`vue-cli4`或者vite
+>
+> Composition api 和 option api
+>
+> Compostion api更有利于Tree-think、对TS支持更好,API简化更利于理解
 
 ## 1. 与vue2的一些区别
 
-- 1. `template` 模板不用非要根节点
-- 2. `option api` 转向 `composition api` 更好的封装
+- 1. `template` 模板可以多根节点*当有属性需要继承时,需要单根或者声明*
+- 2. `option api` 转向 `composition api` 更便捷
 - 3. v-if的优先级高于v-for,意味着在一起使用会报错
 
 
@@ -41,13 +44,7 @@
 - toRefs 用于解析响应式引用
 - provide 一个函数接受键值对,并不具备响应式,如果通过ref、reactive创建的响应式引用则具备响应式
 - inject 接受键和默认值
-- readonl 返回一个不可更改的对象
-
-
-
-
-
-
+- readonly 返回一个不可更改的对象
 
 ## 4. template的变化
 
@@ -55,8 +52,7 @@
 > 静态属性提升
 > 预字符串化
 
-
-## 打包工具vite
+## 5. 打包工具vite
 
 > 借助浏览器原生力量(支持EsModule)实现毫秒级启动
 > 基本称为Rollup的超集(几乎支持所有的Rollup插件)
