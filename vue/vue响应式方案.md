@@ -120,9 +120,98 @@ setInterval(() => {
 
 ## 2. Vue3响应式方案
 
-> Vue3的机制基于Es6的语言特性Proxy实现拦截,这属于懒拦截,因此在性能上有很大的提升,不用在递归遍历对象对每个属性做代理
+> Vue3的响应机制是基于Es6的语言特性Proxy实现拦截,这属于懒处理只在使用时才处理,在性能上有很大的提升,不用在递归遍历对象对每个属性做代理
 >
-> 通过effect收集依赖
+> 通过effect触发get利用track进行依赖收集trigger触发依赖执行
+
+1. 利用Proxy进行数据代理
+
+```js
+function  reactive(obj) {
+    return new Proxy(obj,{
+        get(target,key){
+            track(target,key)
+            if(typeof target[key] === "object"){
+                return reactive(target[key]);
+            }
+            return target[key]
+        },
+        set(target,key,val){
+            target[key] = val;
+            trigger(target,key)
+        },
+        deleteProperty(target,key){
+            delete target[key];
+            trigger(target,key)
+        },
+    })
+}
+```
+
+2. 创建副作用函数准备操作,通过effectStack缓存操作
+
+```js
+const effectStack = [];
+function  effect(fn) {
+    const e = createEffect(fn);
+    e();
+    return e;
+}
+function createEffect(fn) {
+    const effect = function (){
+        try{
+            effectStack.push(effect);
+            fn();
+        }finally{
+            effectStack.pop();
+        }
+    }  
+    return effect;  
+}
+```
+
+3. 收集依赖,由于在准备副作用函数时直接执行了更新函数导致出发getter
+
+```js
+const targetMap = new WeakMap();
+function  track(target,key) {
+    const effect = effectStack[effectStack.length - 1];
+    if(effect){
+        let depMap = targetMap.get(target);
+        if(!depMap){
+            depMap = new Map();
+            targetMap.set(target,depMap) 
+        }
+        let deps = depMap.get(key);
+        if(!deps){
+            deps = new Set();
+            depMap.set(key,deps)
+        }
+        deps.add(effect)
+    }
+}
+
+```
+
+4. 广播,当依赖项发生变化执行副作用-更新函数
+
+```js
+function  trigger(target,key) {
+    const depMap = targetMap.get(target);
+    if(depMap){
+        const deps = depMap.get(key);
+        if(deps){
+            deps.forEach(fn=>fn())
+        }
+    }
+}
+
+```
+
+## 3. 对比
+
+- Vue2 无论是否使用该数据都会在首次对数据进行递归代理
+- Vue2 无法监听到数组、删除、新增等变化
 
 
 
