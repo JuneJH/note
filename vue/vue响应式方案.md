@@ -2,7 +2,7 @@
 
 > Vue2通过Object.defineProperty拦截对象递归、重写数组方法实现响应式
 >
-> Vue3直接通过Proxy语言层面代理
+> Vue3直接通过Proxy语言层面代理,惰性劫持数据
 
 ## 1. Vue2响应式方案
 
@@ -210,8 +210,14 @@ function  trigger(target,key) {
 
 ## 3. 对比
 
-- Vue2 无论是否使用该数据都会在首次对数据进行递归代理
-- Vue2 无法监听到数组、删除、新增等变化
+1. Vue2 
+   - 无论使用好大的数据结构都会对该数据进行递归遍历处理
+   - `Object.defineProperty`只能处理对象,数组需要重写原型方法
+   - `Object.defineProperty`不能拦截对象的新增删除,需要提供单独的API
+
+2. Vue3
+   - 使用Es6的Proxy语言层面上的特性进行惰性拦截
+   - 语言特性无法兼容IE
 
 
 

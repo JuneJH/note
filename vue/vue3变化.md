@@ -56,12 +56,12 @@
 - 区分开vue应用和vue组件
 
 ```js
-    // vue2  影响所有的vue应用
-    Vue.use(router)
-    Vue.mixin()
+// vue2  影响所有的vue应用
+Vue.use(router)
+Vue.mixin()
 
-    // vue3 
-    createApp().use(router).mixin()
+// vue3 
+createApp().use(router).mixin()
 
 ```
 
@@ -81,17 +81,17 @@
 
 ```js
 
-        `<VModel v-model="vmodel" v-model:title.j="title"/>`
-        funciton inputHandle (e){
-            ctx.emit("update:modelValue",e.target.value)
-        }
-       function clickHandle(){
-           if(props.titleModifiers && props.titleModifiers.j){
-               ctx.emit("update:title",Math.ceil(Math.random()*10))
-               return;
-           }
-           ctx.emit("update:title",Math.random())
-       }
+`<VModel v-model="vmodel" v-model:title.j="title"/>`
+funciton inputHandle (e){
+  ctx.emit("update:modelValue",e.target.value)
+}
+function clickHandle(){
+  if(props.titleModifiers && props.titleModifiers.j){
+    ctx.emit("update:title",Math.ceil(Math.random()*10))
+    return;
+  }
+  ctx.emit("update:title",Math.random())
+}
 
 ```
 
@@ -103,17 +103,17 @@
 
 ```js
 
-   const list = [{
-        isShow:false,
-        name:"first item"
-      },{
-        isShow:true,
-        name:"sec item"
-      },{
-        isShow:true,
-        name:"three item"
-      }]
-    const computeListRef = computed(()=>list.filter((item)=>item.isShow))
+const list = [{
+  isShow:false,
+  name:"first item"
+},{
+  isShow:true,
+  name:"sec item"
+},{
+  isShow:true,
+  name:"three item"
+}]
+const computeListRef = computed(()=>list.filter((item)=>item.isShow))
 
 ```
 
@@ -124,13 +124,13 @@
 
 ```js
 // 在vue2中input将会被复用,而在vue3中不会
- <div v-if="isShow">
-    <label key="1"> 姓名：<input /> </label>
-  </div>
-  <div v-else>
-    <label key="1"> 昵称：<input /> </label>
-  </div>
-  <button @click="isShow = !isShow">更改显示</button>
+<div v-if="isShow">
+  <label key="1"> 姓名：<input /> </label>
+</div>
+<div v-else>
+  <label key="1"> 昵称：<input /> </label>
+</div>
+<button @click="isShow = !isShow">更改显示</button>
 
 ```
 
@@ -160,7 +160,7 @@
 
 ```js
 
-  reactive(123);//value cannot be made reactive: 123
+reactive(123);//value cannot be made reactive: 123
 
 ```
 
@@ -168,8 +168,8 @@
 
 ```js
 
-  const state = readonly({name:"june"})
-  state.name = 123//Set operation on key "name" failed: target is readonly. {name: "june"}
+const state = readonly({name:"june"})
+state.name = 123//Set operation on key "name" failed: target is readonly. {name: "june"}
 
 ```
 
@@ -184,12 +184,12 @@
 
 ```js
 
-  const numberRef = ref(123);// {value:123}
-  const userRef = ref({name:"june",age:18});//{value:Proxy}
-  const user = reactive({name:"june",age:18})
-  const userReactiveRef = ref(user);
-  console.log(userReactiveRef.value === user);// true
-  const userInfo = computed(()=> `My name is ${userRef.value.name},i am ${user.age} year old`)
+const numberRef = ref(123);// {value:123}
+const userRef = ref({name:"june",age:18});//{value:Proxy}
+const user = reactive({name:"june",age:18})
+const userReactiveRef = ref(user);
+console.log(userReactiveRef.value === user);// true
+const userInfo = computed(()=> `My name is ${userRef.value.name},i am ${user.age} year old`)
 
 ```
 
@@ -211,16 +211,16 @@
 
 ```js
 
-  watch(numberRef,(state,preState)=>{
-      console.log("watch run",state,preState)
-  })
-  watchEffect(()=>{
-      console.log("watchEffect run",numberRef.value)
-  })
-  // watch 通过数组监听多个依赖,Proxy对象需要转换为一个函数
-  watch([numberRef,()=>state.name],([state,preState],[name,preName])=>{
-      console.log("watch run 2",state,preState,name,preName)
-  })
+watch(numberRef,(state,preState)=>{
+  console.log("watch run",state,preState)
+})
+watchEffect(()=>{
+  console.log("watchEffect run",numberRef.value)
+})
+// watch 通过数组监听多个依赖,Proxy对象需要转换为一个函数
+watch([numberRef,()=>state.name],([state,preState],[name,preName])=>{
+  console.log("watch run 2",state,preState,name,preName)
+})
 
 ```
 
