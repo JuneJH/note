@@ -40,6 +40,6 @@ git stash pop
 ## 6. 回到上次提交
 
 ```shell
-git restore .
+git reset --hard [版本号]｜[head]|[HEAD^]|[HEAD^^]|[HEAD~3]
 ```
 
