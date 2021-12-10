@@ -8,19 +8,38 @@
 
 ## 1. 初始化仓库
 
-```shel
+```shell
 git init
 ```
 
 ## 2. 加入追踪
 
-```shel
+```shell
 git add . [文件名]
 ```
 
 ## 3. 提交
 
-```she
+```shell
 git commit -am ""
+```
+
+## 4. 从缓存区恢复
+
+```shell
+git checkout xxx
+```
+
+## 5. 保存临时工作Stash
+
+```shell
+git stash
+git stash pop
+```
+
+## 6. 回到上次提交
+
+```shell
+git restore .
 ```
 
