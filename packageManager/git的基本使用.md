@@ -9,13 +9,13 @@
 ## 1. 初始化仓库
 
 ```shell
-git init
+git init   // 初始化参数
 ```
 
 ## 2. 加入追踪
 
 ```shell
-git add . [文件名]
+git add . [文件名]  // 提交至缓冲区
 ```
 
 ## 3. 提交
