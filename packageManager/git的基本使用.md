@@ -43,3 +43,21 @@ git stash pop
 git reset --hard [版本号]｜[head]|[HEAD^]|[HEAD^^]|[HEAD~3]
 ```
 
+## 7. 分支
+
+```shell
+git checkout -b 新分支
+```
+
+## 8. 合并分支
+
+```shell
+git merge 分支名称
+```
+
+## 9. 清洗分支历史合并
+
+```shell
+git merge --squash 分支名称
+```
+
