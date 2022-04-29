@@ -1,5 +1,7 @@
 # Linux常用命令
 
+> https://greasyfork.org/zh-CNhttps://greasyfork.org/zh-CN
+
 1. yum install wget     下载
 2. wget                 下载   wget + url
 3. ll                    显示列表   ls -l 缩写
