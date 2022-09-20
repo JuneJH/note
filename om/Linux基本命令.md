@@ -121,6 +121,16 @@
 - sed
 - awk
 
+## 7. 文件操作
+
+1. Mac 上传文件只服务器
+
+   ```shell
+   scp -r blog_project root@ip:/root/data/app/blog
+   ```
+
+   
+
 ## 实操
 
 1. 解压 tar
