@@ -1,4 +1,4 @@
-# webpack基本使用
+# 工程化01-webpack
 
 > webpack 是一个现代 JavaScript 应用程序的静态模块打包器(module bundler)。当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。
 
@@ -12,7 +12,7 @@
     entry:{
       // key 就是chunkname，value 就是模块地址
       main:"./src/index.js",// 一个入口模块,被webpack处理后执行一个入口文件
-      more:["./src/index.js","./src/start.js"],// 两个入口模块，被webpack处理后执行与该配置同样的入口文件
+      more:["./src/index.js","./src/start.js"],// 两个入口模块，被webpack处理后执行与该配置同样的入口文件 生成一个bundle
     }
   }
   ```
@@ -57,11 +57,19 @@
     }
   }
   // 在webpack生成ast之前会对匹配成功的文件的loader进行执行，从后向前执行顺序
+  // 一个有效的loader不能为箭头函数 (内部需要使用this)且需要返回一个字符串或者流
   ```
-
   
+- plugins: webpack运行中暴露出来的hooks,配置插件注册在各个阶段处理相关逻辑
 
-- plugins: 实现各种功能,为loader处理后的文件赋能
+  ```js
+  modlue.exports = {
+    plugins:[
+      // 插件是一个对象，需要提供一个apply方法，在webpack初始化时，webpack会调用该方法并提供一个compiler对象该对象提供了钩子注册方法
+      new XxxxPlugins() 
+    ]
+  }
+  ```
 
 - chunk: 一个模块的输出,可能会分成多个文件,但是他们应该属于一个chunk，一个入口所有的依赖形成一个chunk
 
@@ -75,110 +83,36 @@
   
 - chunkname: chunk的默认名称
 
-## 2. 基本配置
+- devtool：开发工具配置，源码地图便于开发调试
 
-### 1. entry
+  ```js
+  devtool:"none" // 默认值
+  devtool:"cheap-module-eval-source-map",// 通常使用开发环境配置
+  devtool:"cheap-module-source-map", // 通常使用线上⽣成配置
+  ```
 
-> 入口配置,支持字符串、数组、对象,其中对象可以配置多页面应用
->
-> 数组和字符串模式都只有一个输出
+- devServer: 开发服务器,具备代理,热更新等功能
 
-- 1.字符串方式
+  ```js
+  devServer: {
+   contentBase: "./dist", // 资源地址
+   open: true, // 自动打开浏览器
+   port: 8081, // 端口 port: 8081 // 端口
+   proxy: { // 配置代理
+  	"/api": {
+  			target: "http://localhost:3000"
+   		}
+   }
+  },
+  ```
 
-```js
-entry:"./main.js"
-```
+- mode: 设置打包环境
 
-- 2.数组方式
+  ```js
+  mode: "development"	//设置打包的环境，none、development、prodution
+  ```
 
-```js
-entry:["./main1.js","./main.js"] 
-```
-
-- 3.对象方式
-
-```js
-entry:{
-  "entry1":"./main1.js",
-  "entry2":"./main.js"
-}
-```
-
-### 2. output
-
-> 输出配置
->
-> 即使可以存在多个入口起点，也只能指定一个输出配置
-
-```js
-output:{
-  path:path.resolve(__dirname,"./bundle"),
-  filename:"[name].js"
-}
-```
-
-### 3. loader
-
-> 默认情况下webpack只能处理js、json,但是通过lodader,webpack有能力处理任何文件
->
-> 其中一个有效的loader不能为箭头函数 (内部需要使用this)且需要返回一个字符串或者流
-
-```js
-module:{
-  rules: [
-    { test: /\.css$/, use: 'css-loader' }
-  ]
-}
-```
-
-### 4. plugins
-
-> webpack通过loader认识处理各种文件,通过plugin为这些文件赋能
-
-```js
-plugins: [new HtmlWebpackPlugin()],
-```
-
-
-
-### 5. mode
-
-> 设置打包的环境，none、development、prodution
-
-```js
-mode: "development"
-```
-
-### 6. devserve
-
-> 配置本地服务、热更新、代理
-
-```js
-devServer: {
- contentBase: "./dist", // 资源地址
- open: true, // 自动打开浏览器
- port: 8081, // 端口 port: 8081 // 端口
- proxy: { // 配置代理
-	"/api": {
-			target: "http://localhost:3000"
- 		}
- }
-},
-```
-
-### 7. devtool
-
-> 源代码与打包后的代码位置映射关系
->
-> 配置一个`source-map`帮助调试代码 
-
-```js
-devtool:"none" // 默认值
-devtool:"cheap-module-eval-source-map",// 通常使用开发环境配置
-devtool:"cheap-module-source-map", // 通常使用线上⽣成配置
-```
-
-## 3. 实现一个loader
+## 2. 实现一个loader
 
 > loader不能是箭头函数且需要返回一个字符串或者buffer(可以通过return或者`this.callback()`返回)
 >
@@ -196,7 +130,7 @@ function (str){
 }
 ```
 
-## 4. 实现一个plugin
+## 3. 实现一个plugin
 
 > webpack在编译的时候会触发一系列 Tapable钩子,书写插件时根据自身功能找到自己需要执行的时机并在该钩子上注册插件任务,当钩子执行时会触发该任务
 >
@@ -228,7 +162,7 @@ class fileListPlugin {
 }
 ```
 
-## 5. 打包结果分析(模块兼容方式)
+## 4. 打包结果分析(模块兼容方式)
 
 ```js
 (function (modules) {
@@ -292,7 +226,7 @@ class fileListPlugin {
 - 使用`eval`执行函数方便增加代码附件信息,比如代码行的信息
 - 可通过`devtool`配置设置该代码执行方式
 
-## 6. 编译过程
+## 5. 编译过程
 
 1. 合并参数，cli命令参数>配置文件>默认参数 参考库`yargs`
 2. 创建chunk(可能存在多个) 根据入口模块递归穿件chunk assets 列表
