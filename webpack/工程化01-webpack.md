@@ -34,7 +34,7 @@
   ```js
   module.exports = {
     module:{
-      rule:[
+      rules:[
         {
           test: /index.\js$/, // 匹配规则，正则表达式
           // 需要对命中文件使用的loader
