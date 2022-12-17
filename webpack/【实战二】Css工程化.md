@@ -1,4 +1,8 @@
-# 处理Css方案
+# Css 工程化
+
+> 命名冲突: css命名冲突导致样式混乱 BEM命名规范，css module
+>
+> 复用困难: 没有办法想js那样复用样式 less，sass，css in js
 
 
 
