@@ -233,3 +233,7 @@ class fileListPlugin {
 3. 构建依赖模块(bundle)，形成chunk assets 资源列表并生成相应的chunk hash(根据资源列表内容)值，抽象语法树
 4. 利用所有chunk生成hash
 5. 输出文件emit
+
+## 6. 注意事项
+
+ 
