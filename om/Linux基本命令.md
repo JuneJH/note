@@ -134,5 +134,17 @@
 ## 实操
 
 1. 解压 tar
+
 2. 下载 wget
+
 3. yum
+
+4. 查看端口
+
+   ```shell
+   lsof -i tcp:【端口】
+   netstat -ntlp # 查看所有端口
+   
+   ```
+
+   
