@@ -1,11 +1,16 @@
-# 学习笔记
+# 个人技术栈
 
-## [转](https://github.com/JuneJH/blog)
+## 1. Javascript
 
+## 2. Webpack
 
-## 2022计划
+## 3. Nodejs
 
-- react原理分析(fiber、diff)
-- 数据结构(链表、数组、队列、栈...)
-- 算法(分治算法、回溯算法、排序)
-- Java(继承、封装、多态)
+## 4. Network
+
+## 5. Vue
+
+## 6. React
+
+## 7. Java
+
