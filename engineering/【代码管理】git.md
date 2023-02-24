@@ -4,6 +4,35 @@
 >
 > 工作区 => 缓存区 => 仓库区 => 远程仓库
 
+## 0. 安装
+
+1. yum安装
+
+   ```shell
+   yum -y install git 
+   ```
+
+2. 设置用户信息
+
+   ```shell
+   git config --global user.name JuneJH
+   git config --global user.email 153XXX7388@163.com
+   ```
+
+3. 生成密钥
+
+   ```shell
+   ssh-keygen -t rsa -C "JuneJH" # 生成成功后在.ssh下找到配置github的ssh key中	
+   ```
+
+4. 测试是否成功
+
+   ```shell
+   ssh -T git@github.com # Hi JuneJH! You've successfully authenticated, but GitHub does not provide shell access.
+   ```
+
+   
+
 ## 1. 基础命令
 
 ##### 0. 配置
@@ -140,4 +169,6 @@ git pull orgin [远程分支名称]:[本地分支名称]
 
 
 ## 5. foke
+
+
 
