@@ -75,7 +75,53 @@
     docker logs [容器id]
     ```
 
-    
+10. 停止运行
+
+    ```shell
+    docker kill CONTAINERID
+    ```
+
+
+
+
+
+## 常见使用
+
+### 1. 部署一个mysql
+
+1. 拉去mysql镜像
+
+   ```shell
+   docker pull mysql:5.7.8
+   ```
+
+2. 创建镜像并运行
+
+   ```shell
+   docker run \
+   --name mysql5.7 \
+   -p 3306:3306 \
+   -e MYSQL_ROOT_PASSWORD=root \
+   -d \
+   -v /usr/local/docker_data/mysql/data:/var/lib/mysql \
+   -v /usr/local/docker_data/mysql/conf:/etc/mysql/ \
+   -v /usr/local/docker_data/mysql/logs:/var/log/mysql \
+   mysql:5.7
+   ```
+
+3. 数据库连接失败原因1
+
+   ```shell
+   mysql -uroot # 登录mysql
+   show databases；
+   use mysql;
+   select user,host from user;
+   pdate user set host = ‘%’ where user=‘root’;
+   flush privileges;
+   ALTER USER 'root'@'%' IDENTIFIED BY '123456';# 修改密码
+   ```
+
+   
 
 ## 为什么
 
