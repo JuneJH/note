@@ -1,9 +1,40 @@
 # call、apply、bind改变this的指向
 
-> 在JavaScript中改变this指向,可以通过call,apply,bind
-> call()通过第一个参数来指定this,后续参数将传递给实际函数
-> apply()通过第一个参数指定this,第二参数为**一个包含多个参数的数组**与call唯一不同
-> bind()通过第一个参数指定this,其余参数传递给真实函数,返回一个this固定的新函数,固定this
+
+
+在JavaScript中，可以使用以下方法来改变函数内部的 `this` 指向：
+
+1. `call(thisArg, ...args)`：立即调用函数，并将指定的 `this` 值传递给函数。后续参数将作为实际函数的参数进行传递。
+2. `apply(thisArg, argsArray)`：与 `call()` 类似，也是立即调用函数，并将指定的 `this` 值传递给函数。不同的是，第二个参数是一个包含多个参数的数组，该数组中的元素将作为实际函数的参数进行传递。
+3. `bind(thisArg, ...args)`：返回一个新函数，其中 `this` 值被固定为指定的值。后续参数将作为实际函数的参数进行传递。
+
+## 0. 使用
+
+```javascript
+function greeting(message) {
+  console.log(`${message} ${this.name}!`);
+}
+
+const person = {
+  name: "John"
+};
+
+// 使用 call() 方法
+greeting.call(person, "Hello"); 
+// 输出: Hello John!
+
+const numbers = [1, 2, 3, 4, 5];
+
+// 使用 apply() 方法
+const maxNumber = Math.max.apply(null, numbers);
+console.log(maxNumber); 
+// 输出: 5
+
+// 使用 bind() 方法
+const greet = greeting.bind(person, "Hi");
+greet(); 
+// 输出: Hi John!
+```
 
 
 ## 1. 实现call
@@ -14,22 +45,25 @@
 1. 代码示例
 
 ```js
-// 在原型上增加方法
-Function.prototype.myCall = function (context,...args){
-  // null/undefined:指向window
-  if(context == null){
-    context = window;
-  }
-  const func = Symbol("func");
-  context[func] = this;
-  // this的指向在此时此景应该通过`谁调用的指向谁`这条规则来实现
-  // 由于`谁调用this就指向谁`,可以在该函数中通过this获取真实函数
-  const result = context[func](...args);
-  // 删除该属性避免污染属性
-  delete context[func];
-  return result;
-}
+Function.prototype.myCall = function (context, ...args) {
+  // 处理上下文为 null 或 undefined 的情况
+  context = context || window;
 
+  // 创建一个唯一的属性名
+  const func = Symbol();
+
+  // 将当前函数作为属性值赋给上下文对象
+  context[func] = this;
+
+  // 调用函数，并传入参数
+  const result = context[func](...args);
+
+  // 删除属性
+  delete context[func];
+
+  // 返回函数调用的结果
+  return result;
+};
 ```
 
 **此时如果第一个参数传入基础数据类型,则会报错, 升级兼容处理基础数据类型**
