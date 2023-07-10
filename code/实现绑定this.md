@@ -178,5 +178,4 @@ Function.prototype.myBind = function(context,...args){
   fBound.prototype = new fNOP();
   return fBound;
 }
-
 ```
