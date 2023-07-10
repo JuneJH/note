@@ -71,29 +71,21 @@ Function.prototype.myCall = function (context, ...args) {
 2. 代码示例
 
 ```js
-// 处理基础数据类型
-Function.prototype.myCall = function (context,...args){
-  if(typeof context === "symbol"){
-    throw new Error("暂时不能处理Symbol对象")
+Function.prototype.myCall = function (context, ...args) {
+  if (typeof context === "symbol") {
+    throw new Error("暂时不能处理Symbol对象");
   }
-  if(typeof context === "symbol"){
-    throw new Error()
+  if (context === undefined) {
+    context = globalThis; // 使用全局对象
   }
-  if(context == null){
-    context = window;
+  if (typeof context !== "object") {
+    throw new TypeError("上下文必须是一个对象");
   }
-  // 基础数据类型string/number/boolean,指向其实例(Symbol暂不考虑)
-  // 加入适配基础数据类型
-  if(typeof context != "object"){
-    // 利用包装类实例
-    context = new context.constructor(context)
-  }
-  const func = Symbol("func");
-  context[func] = this;
-  const result = context[func](...args);
-  delete context[func];
+  context.__myCallTempFn__ = this; // 将原函数绑定到上下文对象
+  const result = context.__myCallTempFn__(...args); // 直接调用绑定的函数
+  delete context.__myCallTempFn__;
   return result;
-}
+};
 ```
 
 **此时当传入Symbol时,仍会报错,目前直接不处理，symbol可以在做兼容处理**
