@@ -14,6 +14,49 @@
 
 ### 2. 数据类型
 
+1. string
+2. hash
+3. list
+4. set
+5. zset
+
+### 3. 常用命令
+
+1. 获取所有key
+
+   ```shell
+   keys pattern
+   ```
+
+2. 删除
+
+   ```shell
+   del key
+   ```
+
+3. 判断是否存在
+
+   ```shell
+   exists key
+   ```
+
+4. 设置过期时间
+
+   ```shell
+   expire key seconds
+   TTL key # 查剩余时间
+   PERSIST key # 永久存在
+   pexpire key milliseconds # 设置毫秒
+   ```
+
+5. 重命名
+
+   ```shell
+   rename oldkey newkey
+   ```
+
+###  应用场景
+
 1. 内存数据库
 2. 缓存服务器
 3. 解决分布式集群架构中session分离问题(session共享)
