@@ -55,6 +55,26 @@
    rename oldkey newkey
    ```
 
+### 4. 发布订阅模式
+
+1. 订阅消息
+
+   ```shell
+   subscribe key
+   ```
+
+2. 发布消息
+
+   ```shell
+   publish kkb "xxx"
+   ```
+
+
+
+### 5. 事务
+
+1. 通过MULTI（开启事务队列）、EXEC（执行事务）、DISCARD(清楚事务队列)、WATCH(乐观锁)、UNWATCH(取消)命令实现
+
 ###  应用场景
 
 1. 内存数据库
