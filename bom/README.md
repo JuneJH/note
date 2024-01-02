@@ -14,3 +14,20 @@
 4. getData
 5. keybord:全屏模式下 getLayoutMap，lock，unlock
 6. geolocation
+
+## indexDB
+
+
+
+
+
+## WebRTC
+
+
+
+## Web worker
+
+
+
+
+
