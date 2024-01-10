@@ -118,6 +118,11 @@
 >
 > loader处理异步使用`this.async`
 
+### 0. 常用loader
+
+1. 加载less
+2. 处理jsx
+
 ### 1. 实现一个替换字符串
 
 ```js
@@ -135,6 +140,42 @@ function (str){
 > webpack在编译的时候会触发一系列 Tapable钩子,书写插件时根据自身功能找到自己需要执行的时机并在该钩子上注册插件任务,当钩子执行时会触发该任务
 >
 > plugin是⼀个类,通过apply函数接受⼀个参数compiler
+
+### 0. 常用插件
+
+### 1. Clean-webpack-plugin
+
+- 清除构建目录
+
+### 2. html-webpack-plugin
+
+- 生成html模版
+
+### 3. copy-webpack-plugin
+
+- 复制静态资源文件
+
+### 4. webpack-dev-server
+
+- webpack自带开发服务器
+
+### 5. file-loader
+
+- 根据导出文件输出相同文件导出地址
+
+### 6. url-loader
+
+- 根据配置决定是否生成base64还是调用file-loader
+
+### 7. publicPath
+
+- webpack输出公开地址
+
+### 8. 内置插件DefinePlugin，BannerPlugin，ProvidePlugin
+
+- DefinePlugin：定义全局变量，编译时全局替换
+- BannerPlugin：文件头增加注释
+- ProvidePlugin：自动注入需要的库，无需导入,在编译结果中利用自执行函数加入该模块所需模块*类似node环境注入__dirname*
 
 ### 1. 增加获取打包清单列表
 
