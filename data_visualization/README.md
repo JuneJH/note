@@ -1,3 +1,8 @@
+---
+sidebar_position: 10
+title: 数据可视化模块
+---
+
 # 数据可视化模块
 
 > threejs

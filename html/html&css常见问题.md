@@ -14,9 +14,9 @@
 ## 2. <a></a>标签全部作用
 - 超链接
 - 锚点
-- 发邮件    \<a href="mailto:1375328416@qqcom">发送邮件</a>将打开本地邮件系统给目标发邮件
-- 打电话   \<a href="tel:153XXX7388">拨打客电话</a> 
-- 协议限定符     \<a href="javascript:let i= 10;while(i--)alert('点10次吧'+i)">点10次<a>
+- 发邮件    `<a href="mailto:1375328416@qqcom">发送邮件</a>`将打开本地邮件系统给目标发邮件
+- 打电话   `<a href="tel:153XXX7388">拨打客电话</a> `
+- 协议限定符     `<a href="javascript:let i= 10;while(i--)alert('点10次吧'+i)">点10次<a>`
 
 ## 3. 用CSS画三角形
 ```css
