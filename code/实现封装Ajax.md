@@ -185,6 +185,16 @@ function getParams(params){
 > 因此在请求中，只要能收到服务器得响应都应该使用`resolve` 
 > 实际开发中推荐使用`axios`
 
+
+
+## 6. 如何动态控制请求顺序
+
+
+
+## 7. 如何取消获取去重
+
+
+
 ## 总结
 
 > 原生请求APi`Fetch`,原生支持promise
