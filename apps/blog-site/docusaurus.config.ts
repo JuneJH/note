@@ -3,6 +3,14 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
+  url: 'https://juneju.github.io',
+  baseUrl: '/note/',      // 仓库名
+  organizationName: 'juneju',
+  projectName: 'note',
+  trailingSlash: false,
+
+  // 如有部署在非根路径，加上此项
+  deploymentBranch: 'gh-pages',
   title: '小橘子-个人博客',
   tagline: '自由之路',
   favicon: 'img/favicon.ico',
