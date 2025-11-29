@@ -5,8 +5,6 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   url: 'https://juneju.github.io',
   baseUrl: '/note/',      // 仓库名
-  organizationName: 'juneju',
-  projectName: 'note',
   trailingSlash: false,
 
   // 如有部署在非根路径，加上此项
@@ -14,12 +12,6 @@ const config: Config = {
   title: '小橘子-个人博客',
   tagline: '自由之路',
   favicon: 'img/favicon.ico',
-
-  // Set the production url of your site here
-  url: 'http://blog.junejh.cn',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -103,15 +95,15 @@ const config: Config = {
     footer: {
       style: 'dark',
       links: [
-        {
-          title: '技术',
-          items: [
-            {
-              label: '技术',
-              to: '/docs',
-            },
-          ],
-        },
+        // {
+        //   title: '技术',
+        //   items: [
+        //     {
+        //       label: '技术',
+        //       to: '/docs',
+        //     },
+        //   ],
+        // },
         {
           title: '其他',
           items: [
@@ -136,10 +128,10 @@ const config: Config = {
         {
           title: '链接',
           items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
+            // {
+            //   label: 'Blog',
+            //   to: '/blog',
+            // },
             {
               label: 'GitHub',
               href: 'https://github.com/JuneJH',
