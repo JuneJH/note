@@ -1,4 +1,4 @@
 ---
 sidebar_position: 8
-title: 浏览器相关知识
+title: 08. 浏览器原理
 ---

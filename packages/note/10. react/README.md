@@ -1,6 +1,6 @@
 ---
 sidebar_position: 10
-title: 框架-React
+title: 10. React
 ---
 
 # react 计划

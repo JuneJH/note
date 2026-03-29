@@ -1,5 +1,5 @@
 ---
 sidebar_position: 23
-title: 设计
+title: 23. 平面设计
 ---
 

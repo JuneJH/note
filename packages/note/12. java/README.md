@@ -1,4 +1,4 @@
 ---
 sidebar_position: 12
-title: 服务端-Java
+title: 12. Java
 ---

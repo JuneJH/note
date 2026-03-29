@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: 02. CSS能力
+title: 02. CSS
 ---
 
 # CSS能力

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 18
-title: 18. 算法能力
+title: 18. 算法与数据结构
 
 ---
 

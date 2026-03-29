@@ -1,6 +1,6 @@
 ---
 sidebar_position: 22
-title: 数据可视化模块
+title: 22. 数据可视化
 ---
 
 # 数据可视化模块
